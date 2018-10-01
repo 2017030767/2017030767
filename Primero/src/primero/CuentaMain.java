@@ -5,6 +5,7 @@
  */
 package primero;
 import java.util.Scanner;
+import javax.swing.JOptionPane;
 /**
  *
  * @author Kennyswh
@@ -17,47 +18,54 @@ public class CuentaMain {
     public static void main(String[] args) {
         
         Scanner in = new Scanner(System.in);
+        Object menu[] = {"1. Crear Cuenta","2. Consultar Saldo","3. Depositar",
+            "4. Retirar","5. Mostrar Datos de la Cuenta","6. Modificar Datos","7. Salir"};
+        Object subMenu[] = {"1. Modificar Número de Cuenta","2. Modificar Nombre del Cliente",
+            "3. Modificar Domicilio","4. Modificar Fecha de Nacimiento","5. Modificar Fecha de Apertura",
+            "6. Modificar Nombre de la Sucursal","7. Regresar"};
         boolean verificar;
-        int numero = 0, opcion = 0, edad = 0;
+        int numero = 0, edad = 0;
         float saldo =  0.0f;
         String nombreCliente, domicilio, fechaNacimiento, fechaApertura, nombreSucursal;
         Cuenta cuenta = new Cuenta();
+        String opcMenu = "";
         do{
-            System.out.println("1. Crear Cuenta");
-            System.out.println("2. Consultar Saldo");
-            System.out.println("3. Depositar");
-            System.out.println("4. Retirar");
-            System.out.println("5. Mostrar Datos de la Cuenta");
-            System.out.println("6. Modificar Datos");
-            System.out.println("7. Salir");
-            
-            opcion = in.nextInt();
-            
-            switch(opcion){
-                case 1:
+            opcMenu = (String) JOptionPane.showInputDialog(null,"Elige una opción","Menú",
+                    JOptionPane.QUESTION_MESSAGE, null, menu,menu[0]);
+
+            switch(opcMenu){
+                case "1. Crear Cuenta":
                     do{
-                        System.out.println("Ingresa la edad");
-                        edad = in.nextInt();
-                        System.out.println("Ingresa el saldo");
-                        saldo = in.nextFloat();
+                        edad = Integer.parseInt(JOptionPane.showInputDialog(null,"Ingresa la edad",
+                            "Crear Cuenta",JOptionPane.QUESTION_MESSAGE));
+                        
+                        saldo = Float.parseFloat(JOptionPane.showInputDialog(null,"Ingresa el saldo",
+                            "Crear Cuenta",JOptionPane.QUESTION_MESSAGE));
+                        
                         verificar = cuenta.crearCuenta(saldo, edad);
                         if(!verificar){
-                            System.out.println("La persona tiene que ser mayor de edad y el saldo minimo es de 1000 MXN");
+                            JOptionPane.showMessageDialog(null, "La persona tiene que ser mayor de edad y el saldo minimo es de 1000 MXN" );
                         }
                     }while(!verificar);
-                    System.out.println("Ingresa el numero de cuenta");
-                    numero = in.nextInt();
-                    in.nextLine();
-                    System.out.println("Ingresa el nombre del cliente");
-                    nombreCliente = in.nextLine();
-                    System.out.println("Ingresa el domicilio");
-                    domicilio = in.nextLine();
-                    System.out.println("Ingresa su fecha de nacimiento");
-                    fechaNacimiento = in.nextLine();
-                    System.out.println("Ingresa la fecha de apertura");
-                    fechaApertura = in.nextLine();
-                    System.out.println("Ingresa el nombre de la sucursal");
-                    nombreSucursal = in.nextLine();
+                    numero = Integer.parseInt(JOptionPane.showInputDialog(null,"Ingresa el numero de cuenta",
+                            "Crear Cuenta",JOptionPane.QUESTION_MESSAGE));
+                    
+                    nombreCliente = JOptionPane.showInputDialog(null,"Ingresa el nombre del cliente",
+                            "Crear Cuenta",JOptionPane.QUESTION_MESSAGE);
+                    
+                    domicilio = JOptionPane.showInputDialog(null,"Ingresa el domicilio",
+                            "Crear Cuenta",JOptionPane.QUESTION_MESSAGE);
+                    
+                    fechaNacimiento = JOptionPane.showInputDialog(null,"Ingresa su fecha de nacimiento",
+                            "Crear Cuenta",JOptionPane.QUESTION_MESSAGE);
+                    
+                    fechaApertura = JOptionPane.showInputDialog(null,"Ingresa la fecha de apertura",
+                            "Crear Cuenta",JOptionPane.QUESTION_MESSAGE);
+                    
+                    nombreSucursal = JOptionPane.showInputDialog(null,"Ingresa el nombre de la sucursal",
+                            "Crear Cuenta",JOptionPane.QUESTION_MESSAGE);
+                    
+                    
                     cuenta.setNumeroCuenta(numero);
                     cuenta.setNombreCliente(nombreCliente);
                     cuenta.setDomicilio(domicilio);
@@ -66,97 +74,84 @@ public class CuentaMain {
                     cuenta.setFechaApertura(fechaApertura);
                     cuenta.setNombreSucursal(nombreSucursal);
                     break;
-                case 2:
-                    System.out.println("El Saldo es: " + cuenta.consultarSaldo() + " MXN");
+                case "2. Consultar Saldo":
+                    JOptionPane.showMessageDialog(null, "El Saldo es: " + cuenta.consultarSaldo() + " MXN",
+                            "Consultar Saldo", JOptionPane.INFORMATION_MESSAGE);
                     break;
-                case 3:
-                    System.out.println("Ingresa la cantidad a depositar");
-                    saldo = in.nextFloat();
+                case "3. Depositar":
+                    saldo = Float.parseFloat(JOptionPane.showInputDialog(null,"Ingresa la cantidad a depositar",
+                            "Depositar",JOptionPane.QUESTION_MESSAGE));
                     cuenta.depositar(saldo);
                     break;
-                case 4:
+                case "4. Retirar":
                     do{
-                        System.out.println("Ingresa la cantidad a retirar");
-                        saldo = in.nextFloat();
+                        saldo = Float.parseFloat(JOptionPane.showInputDialog(null,"Ingresa la cantidad a retirar",
+                            "Retirar",JOptionPane.QUESTION_MESSAGE));
                         verificar = cuenta.retirar(saldo);
                         if(!verificar){
-                            System.out.println("La cantidad retirada no puede superar el saldo de la cuenta");
+                            JOptionPane.showMessageDialog(null, "La cantidad retirada no puede superar el saldo de la cuenta", "Retirar", JOptionPane.WARNING_MESSAGE );
                         }
                         else{
-                            System.out.println("Operacion exitosa");
+                            JOptionPane.showMessageDialog(null, "Operación Exitosa", "Retirar",JOptionPane.INFORMATION_MESSAGE);
                         }
                     }while(!verificar);
                     break;
-                case 5:
-                    System.out.println("Numero de Cuenta: " + cuenta.getNumeroCuenta() + "\nNombre del Cliente: " 
+                case "5. Mostrar Datos de la Cuenta":
+                    JOptionPane.showMessageDialog(null, "Numero de Cuenta: " + cuenta.getNumeroCuenta() + "\nNombre del Cliente: " 
                             + cuenta.getNombreCliente() + "\nFecha de Nacimiento: " + cuenta.getFechaNacimiento()
                             + "\nDomicilio: " + cuenta.getDomicilio() + "\nFecha de Apertura: " + cuenta.getFechaApertura()
-                            + "\nNombre de la Sucursal: " +cuenta.getNombreSucursal());
+                            + "\nNombre de la Sucursal: " +cuenta.getNombreSucursal() );
                     break;    
-                case 6:
+                case "6. Modificar Datos":
+                    String opcSubMenu = "";
                     do{
-                        System.out.println("Elija la opcion deseada:");
-                        System.out.println("1. Modificar Número de Cuenta");
-                        System.out.println("2. Modificar Nombre del Cliente");
-                        System.out.println("3. Modificar Domicilio");
-                        System.out.println("4. Modificar Fecha de Nacimiento");
-                        System.out.println("5. Modificar Fecha de Apertura");
-                        System.out.println("6. Modificar Nombre de la Sucursal");
-                        System.out.println("7. Regresar");
-                        opcion = in.nextInt();
-                        switch(opcion){
-                            case 1:
-                                System.out.println("Ingresa el numero de cuenta");
-                                numero = in.nextInt();
+                        opcSubMenu = (String)JOptionPane.showInputDialog(null, "Elige una opción", 
+                                "Modificar Datos", JOptionPane.QUESTION_MESSAGE, null, subMenu, subMenu[0]);
+                        
+                        switch(opcSubMenu){
+                            case "1. Modificar Número de Cuenta":
+                                numero = Integer.parseInt(JOptionPane.showInputDialog(null,
+                                        "Ingresa el  nuevo número de cuenta","Modificar Número de Cuenta",JOptionPane.QUESTION_MESSAGE));
                                 cuenta.setNumeroCuenta(numero);
                                 break;
-                            case 2:
-                                in.nextLine();
-                                System.out.println("Ingresa el nombre del cliente");
-                                nombreCliente = in.nextLine();
+                            case "2. Modificar Nombre del Cliente":
+                                nombreCliente = JOptionPane.showInputDialog(null,"Ingresa el nuevo nombre del cliente",
+                                            "Modificar Nombre del Cliente",JOptionPane.QUESTION_MESSAGE);
                                 cuenta.setNombreCliente(nombreCliente);
                                 break;
-                            case 3:
-                                in.nextLine();
-                                System.out.println("Ingresa el domicilio");
-                                domicilio = in.nextLine();
+                            case "3. Modificar Domicilio":
+                                domicilio = JOptionPane.showInputDialog(null,"Ingresa el nuevo domicilio",
+                                            "Modificar Domicilio",JOptionPane.QUESTION_MESSAGE);
                                 cuenta.setDomicilio(domicilio);
                                 break;
-                            case 4:  
-                                in.nextLine();
-                                System.out.println("Ingresa la fecha de nacimiento");
-                                fechaNacimiento = in.nextLine();
+                            case "4. Modificar Fecha de Nacimiento":  
+                                fechaNacimiento = JOptionPane.showInputDialog(null,"Ingresa la nueva fecha de nacimientp",
+                                                    "Modificar Fecha de Nacimiento",JOptionPane.QUESTION_MESSAGE);
                                 cuenta.setFechaNacimiento(fechaNacimiento);
                                 break;
-                            case 5:
-                                in.nextLine();
-                                System.out.println("Ingresa la fecha de apertura");
-                                fechaApertura = in.nextLine();
+                            case "5. Modificar Fecha de Apertura":
+                                fechaApertura = JOptionPane.showInputDialog(null,"Ingresa la nueva fecha de apertura",
+                                                "Modificar Fecha de Apertura",JOptionPane.QUESTION_MESSAGE);
                                 cuenta.setFechaApertura(fechaApertura);
                                 break;
-                            case 6:
-                                in.nextLine();
-                                System.out.println("Ingresa el nombre de la sucursal");
-                                nombreSucursal = in.nextLine();
+                            case "6. Modificar Nombre de la Sucursal":
+                                nombreSucursal = JOptionPane.showInputDialog(null,"Ingresa el nuevo nombre de la sucursal",
+                                                 "Modificar Nombre de la Sucursal",JOptionPane.QUESTION_MESSAGE);
                                 cuenta.setNombreSucursal(nombreSucursal);
                                 break;
-                            case 7:
+                            case "7. Regresar":
                                 break;
                             default:
-                                System.out.println("No es una opción válida");
+                                JOptionPane.showMessageDialog(null, "No es una opcion válida", null, JOptionPane.WARNING_MESSAGE );
                         }
-                    }while(opcion != 7);
-                    opcion = 0;
+                    }while(!opcSubMenu.equals("7. Regresar"));
                     break;
-                case 7:
-                    System.out.println("Gracias, hasta la vista");
+                case "7. Salir":
+                    JOptionPane.showMessageDialog(null, "Gracias, hasta pronto" );
                     break;
                 default:
-                    System.out.println("No es una opción válida");
+                    JOptionPane.showMessageDialog(null, "No es una opcion válida", null, JOptionPane.WARNING_MESSAGE );
             }
-        System.out.println("Oprima cualquier tecla para continuar");
-            in.nextInt();
-        } while(opcion != 7);
-        // TODO code application logic here
+        } while(!opcMenu.equals("7. Salir"));
     }
 }

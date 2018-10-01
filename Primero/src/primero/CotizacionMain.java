@@ -5,6 +5,7 @@
  */
 package primero;
 import java.util.Scanner;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -16,110 +17,107 @@ public class CotizacionMain {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
+        Object menu[] = {"1. Crear Cotización","2. Calcular Pago Inicial","3. Calcular Total a Financiar",
+                        "4. Calcular Pago Mensual","5. Imprimir Cotizacion","6. Modificar Datos","7. Salir"};
+        Object subMenu[] = {"1. Modificar Número de Cotización","2. Modificar Descripcion","3. Modificar Precio",
+                        "4. Modificar Porcentaje de Pago Inicial","5. Modificar Plazo","6. Regresar"};
         Scanner in = new Scanner(System.in);
-        int numero = 0, opcion = 0, plazo = 0;
+        int numero = 0, plazo = 0;
         float precio =  0.0f, porcentaje =  0.0f;
         String descripcion;
         Cotizacion cotizacion = new Cotizacion();
+        String opcMenu = "";
         do{
-            System.out.println("1. Crear Cotizacion");
-            System.out.println("2. Calcular Pago Inicial");
-            System.out.println("3. Calcular Total a Financiar");
-            System.out.println("4. Calcular Pago Mensual");
-            System.out.println("5. Imprimir Cotizacion");
-            System.out.println("6. Modificar Datos");
-            System.out.println("7. Salir");
+            opcMenu = (String) JOptionPane.showInputDialog(null, "Elige una opción","Menu",JOptionPane.QUESTION_MESSAGE,
+                    null, menu, menu[0]);
             
-            opcion = in.nextInt();
-            
-            switch(opcion){
-                case 1:
-                    System.out.println("Ingresa el numero de cotización");
-                    numero = in.nextInt();
-                    in.nextLine();
-                    System.out.println("Ingresa la descripción");
-                    descripcion = in.nextLine();
-                    System.out.println("Ingresa el precio");
-                    precio = in.nextFloat();
-                    System.out.println("Ingresa el porcentaje de pago inicial %");
-                    porcentaje = in.nextFloat();
-                    System.out.println("Ingresa el plazo en meses");
-                    plazo = in.nextInt();
+            switch(opcMenu){
+                case "1. Crear Cotización":
+                    numero = Integer.parseInt(JOptionPane.showInputDialog(null,"Ingresa el número de cotización",
+                            "Crear Cotización",JOptionPane.QUESTION_MESSAGE));
+
+                    descripcion = JOptionPane.showInputDialog(null,"Ingresa la descripción",
+                            "Crear Cotización",JOptionPane.QUESTION_MESSAGE);
+
+                    precio = Float.parseFloat(JOptionPane.showInputDialog(null,"Ingresa el precio",
+                            "Crear Cotización",JOptionPane.QUESTION_MESSAGE));
+
+                    porcentaje = Float.parseFloat(JOptionPane.showInputDialog(null,
+                            "Ingresa el porcentaje de pago inicial %", "Crear Cotización",JOptionPane.QUESTION_MESSAGE));
+
+                    plazo = Integer.parseInt(JOptionPane.showInputDialog(null,"Ingresa el plazo en meses",
+                            "Crear Cotización",JOptionPane.QUESTION_MESSAGE));
                     cotizacion.setNumeroCotizacion(numero);
                     cotizacion.setDescripcion(descripcion);
                     cotizacion.setPrecio(precio);
                     cotizacion.setPorcentajePagoInicial(porcentaje);
                     cotizacion.setPlazo(plazo);
                     break;
-                case 2:
-                    System.out.println("El Pago Inicial es: $" + cotizacion.calcularPagoInicial());
+                case "2. Calcular Pago Inicial":
+                    JOptionPane.showMessageDialog(null, "El Pago Inicial es: $" + cotizacion.calcularPagoInicial(),
+                            "Calcular Pago Inicial", JOptionPane.INFORMATION_MESSAGE);
                     break;
-                case 3:
-                    System.out.println("El Total a financiar es: $" + cotizacion.calcularTotalFinanciar());
+                case "3. Calcular Total a Financiar":
+                    JOptionPane.showMessageDialog(null, "El Total a financiar es: $" + cotizacion.calcularTotalFinanciar(),
+                            "Calcular Total a Financiar", JOptionPane.INFORMATION_MESSAGE);
                     break;
-                case 4:
-                    System.out.println("El Pago Mensual es de: $" + cotizacion.calcularPagoMensual());
+                case "4. Calcular Pago Mensual":
+                    JOptionPane.showMessageDialog(null, "El Pago Mensual es de: $" + cotizacion.calcularPagoMensual(),
+                            "Calcular Pago Mensual", JOptionPane.INFORMATION_MESSAGE);
                     break;
-                case 5:
-                    System.out.println("Numero de Cotizacion: " + cotizacion.getNumeroCotizacion() + "\nDescripcion: " 
-                            + cotizacion.getDescripcion() + "\nPrecio: $" + cotizacion.getPrecio() + "\nPorcentaje de Pago Inicial: "
-                            + cotizacion.getPorcentajePagoInicial() + "% \nPlazo: " + cotizacion.getPlazo() + " Meses");
+                case "5. Imprimir Cotizacion":
+                    JOptionPane.showMessageDialog(null, "Numero de Cotizacion: " + cotizacion.getNumeroCotizacion() + 
+                            "\nDescripcion: " + cotizacion.getDescripcion() + "\nPrecio: $" + cotizacion.getPrecio() + 
+                            "\nPorcentaje de Pago Inicial: "+ cotizacion.getPorcentajePagoInicial() + "% \nPlazo: " + 
+                            cotizacion.getPlazo() + " Meses" + "\nPago Inicial es: $" + cotizacion.calcularPagoInicial() +
+                            "\nTotal a financiar: $" + cotizacion.calcularTotalFinanciar()+ "\nPago Mensual: $" +
+                            cotizacion.calcularPagoMensual(),"Imprimir Cotizacion", JOptionPane.INFORMATION_MESSAGE);
                     break;    
-                case 6:
+                case "6. Modificar Datos":
+                    String opcSubMenu = "";
                     do{
-                        System.out.println("Elija la opcion deseada:");
-                        System.out.println("1. Modificar Número de Cotización");
-                        System.out.println("2. Modificar Descripcion");
-                        System.out.println("3. Modificar Precio");
-                        System.out.println("4. Modificar Porcentaje de Pago Inicial");
-                        System.out.println("5. Modificar Plazo");
-                        System.out.println("6. Regresar");
-                        opcion = in.nextInt();
-                        switch(opcion){
-                            case 1:
-                                System.out.println("Ingresa el numero de cotización");
-                                numero = in.nextInt();
+                        opcSubMenu = (String) JOptionPane.showInputDialog(null,"Elige una opción","Modificar Datos",
+                                JOptionPane.QUESTION_MESSAGE,null,subMenu,subMenu[0]);
+                        switch(opcSubMenu){
+                            case "1. Modificar Número de Cotización":
+                                numero = Integer.parseInt(JOptionPane.showInputDialog(null,
+                                        "Ingresa el nuevo número de cotización", "Modificar Número de Cotización",JOptionPane.QUESTION_MESSAGE));
                                 cotizacion.setNumeroCotizacion(numero);
                                 break;
-                            case 2:
-                                in.nextLine();
-                                System.out.println("Ingresa la descripcion");
-                                descripcion = in.nextLine();
+                            case "2. Modificar Descripcion":
+                                descripcion = JOptionPane.showInputDialog(null,"Ingresa la nueva descripción",
+                                        "Modificar Descripcion",JOptionPane.QUESTION_MESSAGE);
                                 cotizacion.setDescripcion(descripcion);
                                 break;
-                            case 3:
-                                System.out.println("Ingresa el precio");
-                                precio = in.nextFloat();
+                            case "3. Modificar Precio":
+                                precio = Float.parseFloat(JOptionPane.showInputDialog(null,"Ingresa el nuevo precio",
+                                        "Modificar Precio",JOptionPane.QUESTION_MESSAGE));
                                 cotizacion.setPrecio(precio);
                                 break;
-                            case 4:  
-                                System.out.println("Ingresa el porcentaje de pago inicial %");
-                                porcentaje = in.nextFloat();
+                            case "4. Modificar Porcentaje de Pago Inicial":  
+                                porcentaje = Float.parseFloat(JOptionPane.showInputDialog(null,
+                                        "Ingresa el nuevo porcentaje de pago inicial %", 
+                                        "Modificar Porcentaje de Pago Inicial",JOptionPane.QUESTION_MESSAGE));
                                 cotizacion.setPorcentajePagoInicial(porcentaje);
                                 break;
-                            case 5:
-                                System.out.println("Ingresa el plazo en meses");
-                                plazo = in.nextInt();
+                            case "5. Modificar Plazo":
+                                plazo = Integer.parseInt(JOptionPane.showInputDialog(null,"Ingresa el nuevo plazo en meses",
+                                        "Modificar Plazo",JOptionPane.QUESTION_MESSAGE));
                                 cotizacion.setPlazo(plazo);
                                 break;
-                            case 6:
+                            case "6. Regresar":
                                 break;
                             default:
-                                System.out.println("No es una opción válida");
+                                JOptionPane.showMessageDialog(null, "No es una opcion válida", null, JOptionPane.WARNING_MESSAGE );
                         }
-                    }while(opcion != 6);
+                    }while(!opcSubMenu.equals("6. Regresar"));
                     break;
-                case 7:
-                    System.out.println("Gracias, hasta la vista");
+                case "7. Salir":
+                    JOptionPane.showMessageDialog(null, "Gracias, hasta pronto" );
                     break;
                 default:
-                    System.out.println("No es una opción válida");
+                    JOptionPane.showMessageDialog(null, "No es una opcion válida", null, JOptionPane.WARNING_MESSAGE );
             }
-        System.out.println("Oprima cualquier tecla para continuar");
-            in.nextInt();
-        } while(opcion != 7);
-        // TODO code application logic here
+        } while(!opcMenu.equals("7. Salir"));
     }
-    
 }
